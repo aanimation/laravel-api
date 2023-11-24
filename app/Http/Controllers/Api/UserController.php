@@ -18,7 +18,8 @@ class UserController extends Controller
 
         if (count($users) == 0) {
             return response()->json([
-                'message' => 'No users found'
+                'message' => 'No users found',
+                'users' => []
             ]);
         }
         
@@ -109,7 +110,7 @@ class UserController extends Controller
     public function destroy(Request $request, int $userId)
     {
         $user = User::where('id', $userId)->first();
-        if ( !$user) {
+        if (! $user) {
             return response()->json([
                 'message' => "User not found with id:{$userId}",
             ], 404);
@@ -119,7 +120,7 @@ class UserController extends Controller
 
         return response()->json([
             'message' => 'User deleted',
-            'data' => $user,
+            // 'data' => $user,
         ]);
     }
 }
