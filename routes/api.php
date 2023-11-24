@@ -9,8 +9,10 @@ use App\Http\Controllers\Api\{
 
 Route::post('/login', [AuthController::class, 'login']);
 
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/users', [UserController::class, 'index']);
+    Route::get('/detail/{userId}', [UserController::class, 'detail']);
     Route::post('/create', [UserController::class, 'create']);
     Route::post('/update/{userId}', [UserController::class, 'update']);
     Route::post('/delete/{userId}', [UserController::class, 'destroy']);

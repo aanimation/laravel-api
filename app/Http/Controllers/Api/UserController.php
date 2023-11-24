@@ -91,6 +91,21 @@ class UserController extends Controller
         ]);
     }
 
+    public function detail(Request $request, int $userId)
+    {
+        $user = User::where('id', $userId)->where('is_admin', false)->first();
+        if (! $user) {
+            return response()->json([
+                'message' => "User not found with id:{$userId}",
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'User detail',
+            'data' => $user,
+        ]);
+    }
+
     public function destroy(Request $request, int $userId)
     {
         $user = User::where('id', $userId)->first();
