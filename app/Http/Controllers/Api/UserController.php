@@ -33,14 +33,14 @@ class UserController extends Controller
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|max:255|unique:users',
-            'password' => 'required|string|min:6',
-            'password_confirm' => 'required_with:password|min:6|same:password',
+            'name' => 'required|string|min:3',
+            'email' => 'required|email:filter|unique:users,email',
+            'password' => 'required|string|min:5',
+            'password_confirm' => 'required_with:password|min:5|same:password',
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors());
+            return response()->json($validator->errors(), 400);
         }
 
         $user = User::create([
@@ -60,12 +60,12 @@ class UserController extends Controller
     public function update(Request $request, int $userId)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|max:255',
+            'name' => 'required|string|min:3',
+            'email' => 'required|email:filter',
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors());
+            return response()->json($validator->errors(), 400);
         }
 
         $user = User::where('id', $userId)->first();

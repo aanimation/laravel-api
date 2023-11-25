@@ -13,9 +13,18 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email:filter|exists:users,email',
+            'password' => 'required|min:5',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 401);
+        }
+
         if (! Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
-                'message' => 'Unauthorized'
+                'message' => 'Unauthorized, email or password incorrect'
             ], 401);
         }
 
